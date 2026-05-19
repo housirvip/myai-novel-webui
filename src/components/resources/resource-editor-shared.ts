@@ -251,7 +251,7 @@ export function buildResourceFormFromItem(resourceType: EditableResourceKey, ite
       category: world.category,
       content: world.content,
       status: world.status,
-      appendNotes: world.append_notes ?? "",
+      appendNotes: world.appendNotes ?? "",
       keywords: world.keywords ?? "",
     };
   }
@@ -264,14 +264,14 @@ export function buildResourceFormFromItem(resourceType: EditableResourceKey, ite
       age: character.age ? String(character.age) : "",
       personality: character.personality ?? "",
       background: character.background ?? "",
-      currentLocation: character.current_location ?? "",
+      currentLocation: character.currentLocation ?? "",
       status: character.status,
       professions: character.professions ?? "",
       levels: character.levels ?? "",
       currencies: character.currencies ?? "",
       abilities: character.abilities ?? "",
       goal: character.goal ?? "",
-      appendNotes: character.append_notes ?? "",
+      appendNotes: character.appendNotes ?? "",
       keywords: character.keywords ?? "",
     };
   }
@@ -280,27 +280,27 @@ export function buildResourceFormFromItem(resourceType: EditableResourceKey, ite
     return {
       name: faction.name,
       category: faction.category ?? "",
-      coreGoal: faction.core_goal ?? "",
+      coreGoal: faction.coreGoal ?? "",
       description: faction.description ?? "",
-      leaderCharacterId: faction.leader_character_id ? String(faction.leader_character_id) : "",
+      leaderCharacterId: faction.leaderCharacterId ? String(faction.leaderCharacterId) : "",
       headquarter: faction.headquarter ?? "",
       status: faction.status ?? "",
-      appendNotes: faction.append_notes ?? "",
+      appendNotes: faction.appendNotes ?? "",
       keywords: faction.keywords ?? "",
     };
   }
   if (resourceType === "relations") {
     const relation = item as RelationView;
     return {
-      sourceType: relation.source_type,
-      sourceId: String(relation.source_id),
-      targetType: relation.target_type,
-      targetId: String(relation.target_id),
-      relationType: relation.relation_type,
+      sourceType: relation.sourceType,
+      sourceId: String(relation.sourceId),
+      targetType: relation.targetType,
+      targetId: String(relation.targetId),
+      relationType: relation.relationType,
       intensity: relation.intensity ? String(relation.intensity) : "",
       status: relation.status ?? "",
       description: relation.description ?? "",
-      appendNotes: relation.append_notes ?? "",
+      appendNotes: relation.appendNotes ?? "",
       keywords: relation.keywords ?? "",
     };
   }
@@ -310,24 +310,24 @@ export function buildResourceFormFromItem(resourceType: EditableResourceKey, ite
       name: resource.name,
       category: resource.category ?? "",
       description: resource.description ?? "",
-      ownerType: resource.owner_type,
-      ownerId: resource.owner_id ? String(resource.owner_id) : "",
+      ownerType: resource.ownerType,
+      ownerId: resource.ownerId ? String(resource.ownerId) : "",
       rarity: resource.rarity ?? "",
       status: resource.status ?? "",
-      appendNotes: resource.append_notes ?? "",
+      appendNotes: resource.appendNotes ?? "",
       keywords: resource.keywords ?? "",
     };
   }
   const hook = item as StoryHookView;
   return {
     title: hook.title,
-    hookType: hook.hook_type ?? "",
+    hookType: hook.hookType ?? "",
     description: hook.description ?? "",
-    sourceChapterNo: hook.source_chapter_no ? String(hook.source_chapter_no) : "",
-    targetChapterNo: hook.target_chapter_no ? String(hook.target_chapter_no) : "",
+    sourceChapterNo: hook.sourceChapterNo ? String(hook.sourceChapterNo) : "",
+    targetChapterNo: hook.targetChapterNo ? String(hook.targetChapterNo) : "",
     status: hook.status,
     importance: hook.importance ?? "",
-    appendNotes: hook.append_notes ?? "",
+    appendNotes: hook.appendNotes ?? "",
     keywords: hook.keywords ?? "",
   };
 }

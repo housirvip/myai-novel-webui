@@ -70,12 +70,12 @@ export interface BookView {
   id: number;
   title: string;
   summary: string | null;
-  target_chapter_count: number | null;
-  current_chapter_count: number;
+  targetChapterCount: number | null;
+  currentChapterCount: number;
   status: string;
   metadata: string | null;
-  created_at: string;
-  updated_at: string;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface CreateBookInput {
@@ -105,24 +105,24 @@ export type UpdateChapterInput = Partial<CreateChapterInput>;
 
 export interface ChapterView {
   id: number;
-  book_id: number;
-  chapter_no: number;
+  bookId: number;
+  chapterNo: number;
   title: string | null;
   summary: string | null;
-  word_count: number | null;
-  target_word_count: number | null;
+  wordCount: number | null;
+  targetWordCount: number | null;
   status: string;
-  current_plan_id: number | null;
-  current_draft_id: number | null;
-  current_review_id: number | null;
-  current_final_id: number | null;
-  actual_character_ids: string | null;
-  actual_faction_ids: string | null;
-  actual_item_ids: string | null;
-  actual_hook_ids: string | null;
-  actual_world_setting_ids: string | null;
-  created_at: string;
-  updated_at: string;
+  currentPlanId: number | null;
+  currentDraftId: number | null;
+  currentReviewId: number | null;
+  currentFinalId: number | null;
+  actualCharacterIds: string | null;
+  actualFactionIds: string | null;
+  actualItemIds: string | null;
+  actualHookIds: string | null;
+  actualWorldSettingIds: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface ChapterWorkflowStateView {
@@ -255,23 +255,23 @@ export interface ApproveWorkflowInput extends WorkflowBaseInput {
 
 export interface ResourceRecordBase {
   id: number;
-  book_id: number;
-  created_at: string;
-  updated_at: string;
+  bookId: number;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface OutlineView extends ResourceRecordBase {
-  volume_no: number | null;
-  volume_title: string | null;
-  chapter_start_no: number | null;
-  chapter_end_no: number | null;
-  outline_level: string;
+  volumeNo: number | null;
+  volumeTitle: string | null;
+  chapterStartNo: number | null;
+  chapterEndNo: number | null;
+  outlineLevel: string;
   title: string;
-  story_core: string | null;
-  main_plot: string | null;
-  sub_plot: string | null;
+  storyCore: string | null;
+  mainPlot: string | null;
+  subPlot: string | null;
   foreshadowing: string | null;
-  expected_payoff: string | null;
+  expectedPayoff: string | null;
   notes: string | null;
 }
 
@@ -280,7 +280,7 @@ export interface WorldSettingView extends ResourceRecordBase {
   category: string;
   content: string;
   status: string;
-  append_notes: string | null;
+  appendNotes: string | null;
   keywords: string | null;
 }
 
@@ -291,39 +291,39 @@ export interface CharacterView extends ResourceRecordBase {
   age: number | null;
   personality: string | null;
   background: string | null;
-  current_location: string | null;
+  currentLocation: string | null;
   status: string;
   professions: string | null;
   levels: string | null;
   currencies: string | null;
   abilities: string | null;
   goal: string | null;
-  append_notes: string | null;
+  appendNotes: string | null;
   keywords: string | null;
 }
 
 export interface FactionView extends ResourceRecordBase {
   name: string;
   category: string | null;
-  core_goal: string | null;
+  coreGoal: string | null;
   description: string | null;
-  leader_character_id: number | null;
+  leaderCharacterId: number | null;
   headquarter: string | null;
   status: string | null;
-  append_notes: string | null;
+  appendNotes: string | null;
   keywords: string | null;
 }
 
 export interface RelationView extends ResourceRecordBase {
-  source_type: string;
-  source_id: number;
-  target_type: string;
-  target_id: number;
-  relation_type: string;
+  sourceType: string;
+  sourceId: number;
+  targetType: string;
+  targetId: number;
+  relationType: string;
   intensity: number | null;
   status: string | null;
   description: string | null;
-  append_notes: string | null;
+  appendNotes: string | null;
   keywords: string | null;
 }
 
@@ -331,23 +331,23 @@ export interface ItemView extends ResourceRecordBase {
   name: string;
   category: string | null;
   description: string | null;
-  owner_type: string;
-  owner_id: number | null;
+  ownerType: string;
+  ownerId: number | null;
   rarity: string | null;
   status: string | null;
-  append_notes: string | null;
+  appendNotes: string | null;
   keywords: string | null;
 }
 
 export interface StoryHookView extends ResourceRecordBase {
   title: string;
-  hook_type: string | null;
+  hookType: string | null;
   description: string | null;
-  source_chapter_no: number | null;
-  target_chapter_no: number | null;
+  sourceChapterNo: number | null;
+  targetChapterNo: number | null;
   status: string;
   importance: string | null;
-  append_notes: string | null;
+  appendNotes: string | null;
   keywords: string | null;
 }
 

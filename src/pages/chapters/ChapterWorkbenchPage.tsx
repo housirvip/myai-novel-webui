@@ -1083,10 +1083,10 @@ export function ChapterWorkbenchPage() {
   }, [isDirty]);
 
   const chapterList = useMemo(
-    () => [...(chaptersQuery.data ?? [])].sort((left, right) => left.chapter_no - right.chapter_no),
+    () => [...(chaptersQuery.data ?? [])].sort((left, right) => left.chapterNo - right.chapterNo),
     [chaptersQuery.data],
   );
-  const currentChapterIndex = chapterList.findIndex((chapter) => chapter.chapter_no === chapterNo);
+  const currentChapterIndex = chapterList.findIndex((chapter) => chapter.chapterNo === chapterNo);
   const previousChapter = currentChapterIndex > 0 ? chapterList[currentChapterIndex - 1] ?? null : null;
   const nextChapter = currentChapterIndex >= 0 ? chapterList[currentChapterIndex + 1] ?? null : null;
 
@@ -1158,14 +1158,14 @@ export function ChapterWorkbenchPage() {
     () =>
       (relationsQuery.data ?? []).map((relation: RelationView) => ({
         id: relation.id,
-        name: `${relation.source_type}:${relation.source_id} → ${relation.target_type}:${relation.target_id}`,
-        subtitle: `${getRelationEntityLabel(relation.source_type, relation.source_id, {
+        name: `${relation.sourceType}:${relation.sourceId} → ${relation.targetType}:${relation.targetId}`,
+        subtitle: `${getRelationEntityLabel(relation.sourceType, relation.sourceId, {
           characterNameMap,
           factionNameMap,
           itemNameMap,
           hookNameMap,
           worldSettingNameMap,
-        })} → ${getRelationEntityLabel(relation.target_type, relation.target_id, {
+        })} → ${getRelationEntityLabel(relation.targetType, relation.targetId, {
           characterNameMap,
           factionNameMap,
           itemNameMap,
@@ -1206,12 +1206,12 @@ export function ChapterWorkbenchPage() {
 
     hydratedManualEntityRefsKeyRef.current = hydrateKey;
     setManualEntityRefs({
-      characterIds: parseIdList(chapterQuery.data.actual_character_ids ?? null),
-      factionIds: parseIdList(chapterQuery.data.actual_faction_ids ?? null),
-      itemIds: parseIdList(chapterQuery.data.actual_item_ids ?? null),
-      hookIds: parseIdList(chapterQuery.data.actual_hook_ids ?? null),
+      characterIds: parseIdList(chapterQuery.data.actualCharacterIds ?? null),
+      factionIds: parseIdList(chapterQuery.data.actualFactionIds ?? null),
+      itemIds: parseIdList(chapterQuery.data.actualItemIds ?? null),
+      hookIds: parseIdList(chapterQuery.data.actualHookIds ?? null),
       relationIds: [],
-      worldSettingIds: parseIdList(chapterQuery.data.actual_world_setting_ids ?? null),
+      worldSettingIds: parseIdList(chapterQuery.data.actualWorldSettingIds ?? null),
     });
   }, [bookId, chapterNo, chapterQuery.data]);
 
@@ -1887,18 +1887,18 @@ export function ChapterWorkbenchPage() {
             <div className="font-medium text-slate-900">章节切换</div>
             <div className="mt-3 grid grid-cols-2 gap-2">
               <button
-                onClick={() => navigateToChapter(previousChapter?.chapter_no)}
+                onClick={() => navigateToChapter(previousChapter?.chapterNo)}
                 disabled={!previousChapter}
                 className="rounded-2xl bg-white px-3 py-2 text-xs font-medium text-slate-700 disabled:opacity-40"
               >
-                {previousChapter ? `上一章 · ${previousChapter.chapter_no}` : "没有上一章"}
+                {previousChapter ? `上一章 · ${previousChapter.chapterNo}` : "没有上一章"}
               </button>
               <button
-                onClick={() => navigateToChapter(nextChapter?.chapter_no)}
+                onClick={() => navigateToChapter(nextChapter?.chapterNo)}
                 disabled={!nextChapter}
                 className="rounded-2xl bg-white px-3 py-2 text-xs font-medium text-slate-700 disabled:opacity-40"
               >
-                {nextChapter ? `下一章 · ${nextChapter.chapter_no}` : "没有下一章"}
+                {nextChapter ? `下一章 · ${nextChapter.chapterNo}` : "没有下一章"}
               </button>
             </div>
           </div>

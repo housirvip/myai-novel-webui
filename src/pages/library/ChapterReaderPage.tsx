@@ -29,17 +29,17 @@ export function ChapterReaderPage() {
   });
 
   const chapters = useMemo(
-    () => [...(chaptersQuery.data ?? [])].sort((left, right) => left.chapter_no - right.chapter_no),
+    () => [...(chaptersQuery.data ?? [])].sort((left, right) => left.chapterNo - right.chapterNo),
     [chaptersQuery.data],
   );
 
   const firstReadableChapterNo = useMemo(
-    () => chapters.find((chapter) => chapter.current_final_id)?.chapter_no ?? chapters[0]?.chapter_no ?? null,
+    () => chapters.find((chapter) => chapter.currentFinalId)?.chapterNo ?? chapters[0]?.chapterNo ?? null,
     [chapters],
   );
 
   const finalChapterNos = useMemo(
-    () => chapters.filter((chapter) => chapter.current_final_id).map((chapter) => chapter.chapter_no),
+    () => chapters.filter((chapter) => chapter.currentFinalId).map((chapter) => chapter.chapterNo),
     [chapters],
   );
 
@@ -51,7 +51,7 @@ export function ChapterReaderPage() {
       return;
     }
 
-    const hasSelectedChapter = selectedChapterNo !== null && chapters.some((chapter) => chapter.chapter_no === selectedChapterNo);
+    const hasSelectedChapter = selectedChapterNo !== null && chapters.some((chapter) => chapter.chapterNo === selectedChapterNo);
     if (hasSelectedChapter) {
       return;
     }
@@ -60,12 +60,12 @@ export function ChapterReaderPage() {
   }, [chapters, firstReadableChapterNo, selectedChapterNo]);
 
   const activeChapter = useMemo(
-    () => chapters.find((chapter) => chapter.chapter_no === selectedChapterNo) ?? null,
+    () => chapters.find((chapter) => chapter.chapterNo === selectedChapterNo) ?? null,
     [chapters, selectedChapterNo],
   );
 
   const activeChapterIndex = useMemo(
-    () => chapters.findIndex((chapter) => chapter.chapter_no === selectedChapterNo),
+    () => chapters.findIndex((chapter) => chapter.chapterNo === selectedChapterNo),
     [chapters, selectedChapterNo],
   );
 
@@ -75,7 +75,7 @@ export function ChapterReaderPage() {
   const finalQuery = useQuery({
     queryKey: queryKeys.chapterStage(bookId ?? "invalid", selectedChapterNo ?? "none", "final"),
     queryFn: () => getChapterStage(bookId!, selectedChapterNo!, "final"),
-    enabled: bookId !== null && selectedChapterNo !== null && Boolean(activeChapter?.current_final_id),
+    enabled: bookId !== null && selectedChapterNo !== null && Boolean(activeChapter?.currentFinalId),
   });
 
   const selectionHint =
@@ -114,11 +114,11 @@ export function ChapterReaderPage() {
             <div className="rounded-2xl bg-slate-50 px-4 py-4 text-slate-500">当前书籍还没有章节。</div>
           )}
           {chapters.map((chapter) => {
-            const selected = chapter.chapter_no === selectedChapterNo;
+            const selected = chapter.chapterNo === selectedChapterNo;
             return (
               <button
                 key={chapter.id}
-                onClick={() => setSelectedChapterNo(chapter.chapter_no)}
+                onClick={() => setSelectedChapterNo(chapter.chapterNo)}
                 className={`w-full rounded-2xl border px-4 py-3 text-left transition ${
                   selected
                     ? "border-primary bg-primary text-primary-foreground shadow-glow"
@@ -126,19 +126,19 @@ export function ChapterReaderPage() {
                 }`}
               >
                 <div className="flex items-center justify-between gap-3">
-                  <span className="font-medium">第 {chapter.chapter_no} 章</span>
+                  <span className="font-medium">第 {chapter.chapterNo} 章</span>
                   <div className="flex items-center gap-2">
                     {selected && <span className="rounded-full bg-white/20 px-2 py-0.5 text-[11px]">当前</span>}
                     <span
                       className={`rounded-full px-2 py-0.5 text-[11px] ${
                         selected
                           ? "bg-white/20"
-                          : chapter.current_final_id
+                          : chapter.currentFinalId
                             ? "bg-emerald-100 text-emerald-700"
                             : "bg-amber-100 text-amber-700"
                       }`}
                     >
-                      {chapter.current_final_id ? "Final" : "待完成"}
+                      {chapter.currentFinalId ? "Final" : "待完成"}
                     </span>
                   </div>
                 </div>
@@ -169,7 +169,7 @@ export function ChapterReaderPage() {
                 {activeChapter && (
                   <div className="mt-3 flex flex-wrap items-center gap-2 text-xs">
                     <span className={`rounded-full px-3 py-1 ${isDark ? "bg-slate-900 text-slate-300" : "bg-slate-100 text-slate-600"}`}>
-                      {activeChapter.current_final_id ? "可阅读 Final" : "暂无 Final"}
+                      {activeChapter.currentFinalId ? "可阅读 Final" : "暂无 Final"}
                     </span>
                     <span className={`rounded-full px-3 py-1 ${isDark ? "bg-slate-900 text-slate-300" : "bg-slate-100 text-slate-600"}`}>
                       状态：{activeChapter.status}
@@ -180,14 +180,14 @@ export function ChapterReaderPage() {
 
               <div className="flex flex-wrap gap-2 text-xs">
                 <button
-                  onClick={() => previousChapter && setSelectedChapterNo(previousChapter.chapter_no)}
+                  onClick={() => previousChapter && setSelectedChapterNo(previousChapter.chapterNo)}
                   disabled={!previousChapter}
                   className="rounded-full bg-slate-100 px-3 py-2 text-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
                   上一章
                 </button>
                 <button
-                  onClick={() => nextChapter && setSelectedChapterNo(nextChapter.chapter_no)}
+                  onClick={() => nextChapter && setSelectedChapterNo(nextChapter.chapterNo)}
                   disabled={!nextChapter}
                   className="rounded-full bg-slate-100 px-3 py-2 text-slate-700 disabled:cursor-not-allowed disabled:opacity-50"
                 >
@@ -217,7 +217,7 @@ export function ChapterReaderPage() {
 
           <div className={`mt-6 rounded-[24px] px-2 ${isDark ? "text-slate-200" : "text-slate-700"}`} style={{ fontSize: `${fontScale}px`, lineHeight: 1.95 }}>
             {chaptersQuery.isLoading && <p>正在载入阅读数据...</p>}
-            {!chaptersQuery.isLoading && activeChapter && !activeChapter.current_final_id && (
+            {!chaptersQuery.isLoading && activeChapter && !activeChapter.currentFinalId && (
               <div className={`rounded-[24px] border px-5 py-6 text-sm ${isDark ? "border-slate-800 bg-slate-900 text-slate-300" : "border-slate-200 bg-slate-50 text-slate-500"}`}>
                 <div className="font-medium">这一章还没有 final 成稿。</div>
                 <div className="mt-2 leading-7">
@@ -233,7 +233,7 @@ export function ChapterReaderPage() {
                 )}
               </div>
             )}
-            {finalQuery.isLoading && activeChapter?.current_final_id && <p>正在加载 final 成稿...</p>}
+            {finalQuery.isLoading && activeChapter?.currentFinalId && <p>正在加载 final 成稿...</p>}
             {finalQuery.isError && (
               <div className={`rounded-[24px] border px-5 py-6 text-sm ${isDark ? "border-rose-900 bg-rose-950/50 text-rose-200" : "border-rose-200 bg-rose-50 text-rose-700"}`}>
                 {formatApiErrorMessage(finalQuery.error, "成稿加载失败")}

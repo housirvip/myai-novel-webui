@@ -66,8 +66,8 @@ export function BooksPage() {
                   </p>
                 </div>
                 <div className="flex flex-wrap gap-2 text-xs text-slate-500">
-                  <span className="rounded-full bg-slate-100 px-3 py-1">目标 {book.target_chapter_count ?? "—"} 章</span>
-                  <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-700">已批准 {book.current_chapter_count} 章</span>
+                  <span className="rounded-full bg-slate-100 px-3 py-1">目标 {book.targetChapterCount ?? "—"} 章</span>
+                  <span className="rounded-full bg-emerald-50 px-3 py-1 text-emerald-700">已批准 {book.currentChapterCount} 章</span>
                   <span className="rounded-full bg-indigo-50 px-3 py-1 text-indigo-700">{book.status}</span>
                 </div>
               </div>

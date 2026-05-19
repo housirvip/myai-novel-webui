@@ -37,19 +37,19 @@ describe("ChapterWorkbenchPage", () => {
 
     vi.spyOn(chaptersApi, "getChapter").mockResolvedValue({
       id: 2,
-      chapter_no: 2,
+      chapterNo: 2,
       title: "黑铁令",
       status: "planned",
-      actual_character_ids: null,
-      actual_faction_ids: null,
-      actual_item_ids: null,
-      actual_hook_ids: null,
-      actual_world_setting_ids: null,
+      actualCharacterIds: null,
+      actualFactionIds: null,
+      actualItemIds: null,
+      actualHookIds: null,
+      actualWorldSettingIds: null,
     } as never);
     vi.spyOn(chaptersApi, "listChapters").mockResolvedValue([
-      { id: 1, chapter_no: 1, title: "序章", status: "approved" },
-      { id: 2, chapter_no: 2, title: "黑铁令", status: "planned" },
-      { id: 3, chapter_no: 3, title: "入宗", status: "todo" },
+      { id: 1, chapterNo: 1, title: "序章", status: "approved" },
+      { id: 2, chapterNo: 2, title: "黑铁令", status: "planned" },
+      { id: 3, chapterNo: 3, title: "入宗", status: "todo" },
     ] as never);
     vi.spyOn(chaptersApi, "getChapterWorkflowState").mockResolvedValue({
       status: "planned",
@@ -521,9 +521,9 @@ describe("ChapterWorkbenchPage", () => {
 
   it("sorts chapter navigation by chapter number", async () => {
     vi.mocked(chaptersApi.listChapters).mockResolvedValue([
-      { id: 3, chapter_no: 3, title: "入宗", status: "todo" },
-      { id: 1, chapter_no: 1, title: "序章", status: "approved" },
-      { id: 2, chapter_no: 2, title: "黑铁令", status: "planned" },
+      { id: 3, chapterNo: 3, title: "入宗", status: "todo" },
+      { id: 1, chapterNo: 1, title: "序章", status: "approved" },
+      { id: 2, chapterNo: 2, title: "黑铁令", status: "planned" },
     ] as never);
 
     renderWithRoute(<ChapterWorkbenchPage />, "/app/books/1/chapters/2", "/app/books/:bookId/chapters/:chapterNo");
@@ -610,14 +610,14 @@ describe("ChapterWorkbenchPage", () => {
   it("preselects chapter-linked resources in manualEntityRefs without highlight badges", async () => {
     vi.mocked(chaptersApi.getChapter).mockResolvedValue({
       id: 2,
-      chapter_no: 2,
+      chapterNo: 2,
       title: "黑铁令",
       status: "planned",
-      actual_character_ids: "[11]",
-      actual_faction_ids: null,
-      actual_item_ids: null,
-      actual_hook_ids: null,
-      actual_world_setting_ids: null,
+      actualCharacterIds: "[11]",
+      actualFactionIds: null,
+      actualItemIds: null,
+      actualHookIds: null,
+      actualWorldSettingIds: null,
     } as never);
     vi.mocked(ReactRouter.useLocation).mockImplementation(() => ({
       hash: "",
@@ -810,15 +810,15 @@ describe("ChapterWorkbenchPage", () => {
     vi.mocked(resourcesApi.listRelations).mockResolvedValue([
       {
         id: 41,
-        source_type: "character",
-        source_id: 11,
-        target_type: "faction",
-        target_id: 21,
-        relation_type: "member",
+        sourceType: "character",
+        sourceId: 11,
+        targetType: "faction",
+        targetId: 21,
+        relationType: "member",
         status: "active",
         description: "旧关系",
-        created_at: "2026-05-10T00:00:00.000Z",
-        updated_at: "2026-05-10T00:00:00.000Z",
+        createdAt: "2026-05-10T00:00:00.000Z",
+        updatedAt: "2026-05-10T00:00:00.000Z",
       } as never,
     ]);
 
@@ -865,15 +865,15 @@ describe("ChapterWorkbenchPage", () => {
     vi.mocked(resourcesApi.listRelations).mockResolvedValue([
       {
         id: 41,
-        source_type: "character",
-        source_id: 11,
-        target_type: "faction",
-        target_id: 21,
-        relation_type: "member",
+        sourceType: "character",
+        sourceId: 11,
+        targetType: "faction",
+        targetId: 21,
+        relationType: "member",
         status: "active",
         description: "旧关系",
-        created_at: "2026-05-10T00:00:00.000Z",
-        updated_at: "2026-05-10T00:00:00.000Z",
+        createdAt: "2026-05-10T00:00:00.000Z",
+        updatedAt: "2026-05-10T00:00:00.000Z",
       } as never,
     ]);
     vi.mocked(resourcesApi.listFactions).mockResolvedValue([{ id: 21, name: "青岳宗", status: "active" } as never]);
@@ -907,15 +907,15 @@ describe("ChapterWorkbenchPage", () => {
     vi.mocked(resourcesApi.listRelations).mockResolvedValue([
       {
         id: 41,
-        source_type: "character",
-        source_id: 11,
-        target_type: "faction",
-        target_id: 21,
-        relation_type: "member",
+        sourceType: "character",
+        sourceId: 11,
+        targetType: "faction",
+        targetId: 21,
+        relationType: "member",
         status: "active",
         description: "旧关系",
-        created_at: "2026-05-10T00:00:00.000Z",
-        updated_at: "2026-05-10T00:00:00.000Z",
+        createdAt: "2026-05-10T00:00:00.000Z",
+        updatedAt: "2026-05-10T00:00:00.000Z",
       } as never,
     ]);
     vi.mocked(resourcesApi.listItems).mockResolvedValue([{ id: 31, name: "黑铁令", status: "active" } as never]);
@@ -958,7 +958,7 @@ describe("ChapterWorkbenchPage", () => {
       availableActions: ["plan"],
     } as never);
     vi.mocked(resourcesApi.listFactions).mockResolvedValue([
-      { id: 21, name: "青岳宗", status: "active", leader_character_id: null } as never,
+      { id: 21, name: "青岳宗", status: "active", leaderCharacterId: null } as never,
     ]);
 
     renderWithRoute(<ChapterWorkbenchPage />, "/app/books/1/chapters/2", "/app/books/:bookId/chapters/:chapterNo");

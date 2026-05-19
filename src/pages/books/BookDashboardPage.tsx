@@ -52,12 +52,12 @@ type CreateChapterForm = {
   highModel: string;
 };
 
-function formatStageState(chapter: Pick<ChapterView, "current_plan_id" | "current_draft_id" | "current_review_id" | "current_final_id">) {
+function formatStageState(chapter: Pick<ChapterView, "currentPlanId" | "currentDraftId" | "currentReviewId" | "currentFinalId">) {
   return [
-    chapter.current_plan_id ? "Plan" : null,
-    chapter.current_draft_id ? "Draft" : null,
-    chapter.current_review_id ? "Review" : null,
-    chapter.current_final_id ? "Final" : null,
+    chapter.currentPlanId ? "Plan" : null,
+    chapter.currentDraftId ? "Draft" : null,
+    chapter.currentReviewId ? "Review" : null,
+    chapter.currentFinalId ? "Final" : null,
   ].filter(Boolean);
 }
 
@@ -78,7 +78,7 @@ function createBookForm(book?: BookView | null) {
   return {
     title: book?.title ?? "",
     summary: book?.summary ?? "",
-    targetChapterCount: book?.target_chapter_count ? String(book.target_chapter_count) : "",
+    targetChapterCount: book?.targetChapterCount ? String(book.targetChapterCount) : "",
     status: book?.status ?? "drafting",
   };
 }
@@ -87,13 +87,13 @@ function createEditChapterForm(chapter: ChapterView): ChapterEditForm {
   return {
     title: chapter.title ?? "",
     summary: chapter.summary ?? "",
-    targetWordCount: chapter.target_word_count ? String(chapter.target_word_count) : "",
+    targetWordCount: chapter.targetWordCount ? String(chapter.targetWordCount) : "",
     status: chapter.status,
-    actualCharacterIds: parseIdList(chapter.actual_character_ids),
-    actualFactionIds: parseIdList(chapter.actual_faction_ids),
-    actualItemIds: parseIdList(chapter.actual_item_ids),
-    actualHookIds: parseIdList(chapter.actual_hook_ids),
-    actualWorldSettingIds: parseIdList(chapter.actual_world_setting_ids),
+    actualCharacterIds: parseIdList(chapter.actualCharacterIds),
+    actualFactionIds: parseIdList(chapter.actualFactionIds),
+    actualItemIds: parseIdList(chapter.actualItemIds),
+    actualHookIds: parseIdList(chapter.actualHookIds),
+    actualWorldSettingIds: parseIdList(chapter.actualWorldSettingIds),
   };
 }
 
@@ -223,20 +223,20 @@ export function BookDashboardPage() {
     [userRuntimeSettingsQuery.data],
   );
   const chapters = useMemo(
-    () => [...(chaptersQuery.data ?? [])].sort((left, right) => left.chapter_no - right.chapter_no),
+    () => [...(chaptersQuery.data ?? [])].sort((left, right) => left.chapterNo - right.chapterNo),
     [chaptersQuery.data],
   );
   const nextChapterNo = useMemo(() => {
     if (!chaptersQuery.data) {
       return null;
     }
-    const maxChapterNo = chapters.reduce((currentMax, chapter) => Math.max(currentMax, chapter.chapter_no), 0);
+    const maxChapterNo = chapters.reduce((currentMax, chapter) => Math.max(currentMax, chapter.chapterNo), 0);
     return maxChapterNo + 1;
   }, [chapters, chaptersQuery.data]);
 
   useEffect(() => {
     setBookForm(createBookForm(book));
-  }, [book?.id, book?.title, book?.summary, book?.target_chapter_count, book?.status]);
+  }, [book?.id, book?.title, book?.summary, book?.targetChapterCount, book?.status]);
 
   useEffect(() => {
     if (nextChapterNo == null) {
@@ -294,7 +294,7 @@ export function BookDashboardPage() {
     mutationFn: (input: CreateChapterInput) => createChapter(safeBookId, input),
     onSuccess: async (chapter) => {
       await refreshBookContext();
-      navigate(chapterWorkbenchPath(safeBookId, chapter.chapter_no), {
+      navigate(chapterWorkbenchPath(safeBookId, chapter.chapterNo), {
         state: {
           provider: createForm.provider === "default" ? undefined : createForm.provider,
           lowModel: createForm.lowModel.trim() || undefined,
@@ -408,7 +408,7 @@ export function BookDashboardPage() {
   };
 
   const startEditChapter = (chapter: ChapterView) => {
-    setEditingChapterNo(chapter.chapter_no);
+    setEditingChapterNo(chapter.chapterNo);
     setEditForm(createEditChapterForm(chapter));
   };
 
@@ -591,13 +591,13 @@ export function BookDashboardPage() {
               {chaptersQuery.isLoading && <div className="rounded-2xl bg-slate-50 px-4 py-6 text-sm text-slate-500">正在加载章节...</div>}
               {chapters.map((chapter) => {
                 const stageBadges = formatStageState(chapter);
-                const isEditing = chapter.chapter_no === editingChapterNo;
+                const isEditing = chapter.chapterNo === editingChapterNo;
                 return (
                   <div key={chapter.id} className="rounded-[24px] border border-slate-200 bg-slate-50/80 p-4">
                     <div className="flex flex-wrap items-start justify-between gap-3">
                       <div className="space-y-2">
                         <div className="flex flex-wrap items-center gap-2">
-                          <span className="text-base font-semibold text-slate-950">第 {chapter.chapter_no} 章</span>
+                          <span className="text-base font-semibold text-slate-950">第 {chapter.chapterNo} 章</span>
                           {chapter.title && <span className="text-sm text-slate-700">· {chapter.title}</span>}
                           <span className="rounded-full bg-slate-900 px-3 py-1 text-xs text-white">{chapter.status}</span>
                         </div>
@@ -612,7 +612,7 @@ export function BookDashboardPage() {
                             <span className="rounded-full bg-amber-100 px-3 py-1 text-amber-700">暂无阶段产物</span>
                           )}
                           <span className="rounded-full bg-slate-200 px-3 py-1 text-slate-600">
-                            更新于 {new Date(chapter.updated_at).toLocaleString("zh-CN")}
+                            更新于 {new Date(chapter.updatedAt).toLocaleString("zh-CN")}
                           </span>
                         </div>
                         {chapter.summary && <p className="max-w-3xl text-sm text-slate-600">{chapter.summary}</p>}
@@ -620,7 +620,7 @@ export function BookDashboardPage() {
 
                       <div className="flex flex-wrap gap-2">
                         <Link
-                          to={chapterWorkbenchPath(safeBookId, chapter.chapter_no)}
+                          to={chapterWorkbenchPath(safeBookId, chapter.chapterNo)}
                           className="rounded-2xl bg-primary px-4 py-2 text-sm font-medium text-primary-foreground"
                         >
                           进入工作台
@@ -633,7 +633,7 @@ export function BookDashboardPage() {
                           编辑元信息
                         </button>
                         <button
-                          onClick={() => confirmDeleteChapter(chapter.chapter_no)}
+                          onClick={() => confirmDeleteChapter(chapter.chapterNo)}
                           disabled={deleteChapterMutation.isPending}
                           className="inline-flex items-center gap-2 rounded-2xl bg-rose-50 px-4 py-2 text-sm font-medium text-rose-700 disabled:opacity-60"
                         >
@@ -728,10 +728,10 @@ export function BookDashboardPage() {
 
                         <div className="md:col-span-2 flex flex-wrap items-center justify-between gap-3">
                           <div className="text-sm text-slate-500">
-                            {chapter.current_final_id ? "已产生成稿，可直接前往阅读页查看。" : "当前仍处于写作流程中。"}
+                            {chapter.currentFinalId ? "已产生成稿，可直接前往阅读页查看。" : "当前仍处于写作流程中。"}
                           </div>
                           <div className="flex flex-wrap gap-2">
-                            {chapter.current_final_id && (
+                            {chapter.currentFinalId && (
                               <Link
                                 to={bookReaderPath(safeBookId)}
                                 className="rounded-2xl bg-emerald-100 px-4 py-2 text-sm font-medium text-emerald-700"
@@ -849,11 +849,11 @@ export function BookDashboardPage() {
             <div className="mt-4 grid grid-cols-2 gap-3 text-sm text-slate-600">
               <div className="rounded-2xl bg-slate-50 p-4">
                 <div className="text-xs text-slate-500">目标章节</div>
-                <div className="mt-1 text-lg font-semibold text-slate-950">{book?.target_chapter_count ?? "—"}</div>
+                <div className="mt-1 text-lg font-semibold text-slate-950">{book?.targetChapterCount ?? "—"}</div>
               </div>
               <div className="rounded-2xl bg-slate-50 p-4">
                 <div className="text-xs text-slate-500">已批准</div>
-                <div className="mt-1 text-lg font-semibold text-slate-950">{book?.current_chapter_count ?? 0}</div>
+                <div className="mt-1 text-lg font-semibold text-slate-950">{book?.currentChapterCount ?? 0}</div>
               </div>
               <div className="rounded-2xl bg-slate-50 p-4">
                 <div className="text-xs text-slate-500">状态</div>
@@ -861,7 +861,7 @@ export function BookDashboardPage() {
               </div>
               <div className="rounded-2xl bg-slate-50 p-4">
                 <div className="text-xs text-slate-500">最近更新</div>
-                <div className="mt-1 text-sm font-semibold text-slate-950">{book?.updated_at ? new Date(book.updated_at).toLocaleString("zh-CN") : "—"}</div>
+                <div className="mt-1 text-sm font-semibold text-slate-950">{book?.updatedAt ? new Date(book.updatedAt).toLocaleString("zh-CN") : "—"}</div>
               </div>
             </div>
           </div>

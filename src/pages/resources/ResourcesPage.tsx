@@ -137,16 +137,16 @@ function buildFormFromItem(tab: ResourceKey, item: ResourceRecord): FormState {
     const outline = item as OutlineView;
     return {
       title: outline.title,
-      outlineLevel: outline.outline_level,
-      volumeNo: outline.volume_no ? String(outline.volume_no) : "",
-      volumeTitle: outline.volume_title ?? "",
-      chapterStartNo: outline.chapter_start_no ? String(outline.chapter_start_no) : "",
-      chapterEndNo: outline.chapter_end_no ? String(outline.chapter_end_no) : "",
-      storyCore: outline.story_core ?? "",
-      mainPlot: outline.main_plot ?? "",
-      subPlot: outline.sub_plot ?? "",
+      outlineLevel: outline.outlineLevel,
+      volumeNo: outline.volumeNo ? String(outline.volumeNo) : "",
+      volumeTitle: outline.volumeTitle ?? "",
+      chapterStartNo: outline.chapterStartNo ? String(outline.chapterStartNo) : "",
+      chapterEndNo: outline.chapterEndNo ? String(outline.chapterEndNo) : "",
+      storyCore: outline.storyCore ?? "",
+      mainPlot: outline.mainPlot ?? "",
+      subPlot: outline.subPlot ?? "",
       foreshadowing: outline.foreshadowing ?? "",
-      expectedPayoff: outline.expected_payoff ?? "",
+      expectedPayoff: outline.expectedPayoff ?? "",
       notes: outline.notes ?? "",
     };
   }
@@ -263,8 +263,8 @@ function getRelationEntityName(
 }
 
 function getRelationEntitySummary(relation: RelationView, pickerSources: PickerSources) {
-  const sourceName = getRelationEntityName(relation.source_type, relation.source_id, pickerSources);
-  const targetName = getRelationEntityName(relation.target_type, relation.target_id, pickerSources);
+  const sourceName = getRelationEntityName(relation.sourceType, relation.sourceId, pickerSources);
+  const targetName = getRelationEntityName(relation.targetType, relation.targetId, pickerSources);
   return `${sourceName} → ${targetName}`;
 }
 
@@ -275,7 +275,7 @@ function getCardTitle(tab: ResourceKey, item: ResourceRecord) {
   if (tab === "factions") return (item as FactionView).name;
   if (tab === "relations") {
     const relation = item as RelationView;
-    return `${relation.source_type}:${relation.source_id} → ${relation.target_type}:${relation.target_id}`;
+    return `${relation.sourceType}:${relation.sourceId} → ${relation.targetType}:${relation.targetId}`;
   }
   if (tab === "items") return (item as ItemView).name;
   return (item as StoryHookView).title;
@@ -284,7 +284,7 @@ function getCardTitle(tab: ResourceKey, item: ResourceRecord) {
 function getCardMeta(tab: ResourceKey, item: ResourceRecord, pickerSources?: PickerSources) {
   if (tab === "outlines") {
     const outline = item as OutlineView;
-    return `${outline.outline_level} · ${outline.volume_title ?? "未分卷"}`;
+    return `${outline.outlineLevel} · ${outline.volumeTitle ?? "未分卷"}`;
   }
   if (tab === "worldSettings") {
     const world = item as WorldSettingView;
@@ -292,7 +292,7 @@ function getCardMeta(tab: ResourceKey, item: ResourceRecord, pickerSources?: Pic
   }
   if (tab === "characters") {
     const character = item as CharacterView;
-    return `${getStatusLabel(character.status)} · ${character.current_location ?? "位置未记录"}`;
+    return `${getStatusLabel(character.status)} · ${character.currentLocation ?? "位置未记录"}`;
   }
   if (tab === "factions") {
     const faction = item as FactionView;
@@ -300,27 +300,27 @@ function getCardMeta(tab: ResourceKey, item: ResourceRecord, pickerSources?: Pic
   }
   if (tab === "relations") {
     const relation = item as RelationView;
-    return `${getOptionLabel(relationTypes as unknown as Option[], relation.relation_type)} · ${getStatusLabel(relation.status)}`;
+    return `${getOptionLabel(relationTypes as unknown as Option[], relation.relationType)} · ${getStatusLabel(relation.status)}`;
   }
   if (tab === "items") {
     const resource = item as ItemView;
-    const ownerSummary = resource.owner_id && pickerSources
-      ? `${getEntityTypeLabel(resource.owner_type)}：${getRelationEntityName(resource.owner_type, resource.owner_id, pickerSources)}`
-      : getEntityTypeLabel(resource.owner_type);
+    const ownerSummary = resource.ownerId && pickerSources
+      ? `${getEntityTypeLabel(resource.ownerType)}：${getRelationEntityName(resource.ownerType, resource.ownerId, pickerSources)}`
+      : getEntityTypeLabel(resource.ownerType);
     return `${ownerSummary} · ${getStatusLabel(resource.status)}`;
   }
   const hook = item as StoryHookView;
-  return `${getStatusLabel(hook.status)} · 目标章 ${hook.target_chapter_no ?? "—"}`;
+  return `${getStatusLabel(hook.status)} · 目标章 ${hook.targetChapterNo ?? "—"}`;
 }
 
 function getCardBody(tab: ResourceKey, item: ResourceRecord) {
   if (tab === "outlines") {
     const outline = item as OutlineView;
-    return outline.main_plot || outline.story_core || outline.notes || "暂无内容。";
+    return outline.mainPlot || outline.storyCore || outline.notes || "暂无内容。";
   }
   if (tab === "worldSettings") return (item as WorldSettingView).content;
   if (tab === "characters") return (item as CharacterView).background || (item as CharacterView).goal || "暂无内容。";
-  if (tab === "factions") return (item as FactionView).description || (item as FactionView).core_goal || "暂无内容。";
+  if (tab === "factions") return (item as FactionView).description || (item as FactionView).coreGoal || "暂无内容。";
   if (tab === "relations") return (item as RelationView).description || "暂无内容。";
   if (tab === "items") return (item as ItemView).description || "暂无内容。";
   return (item as StoryHookView).description || "暂无内容。";
@@ -346,9 +346,9 @@ function sortItems(tab: ResourceKey, items: ResourceRecord[], sortMode: string) 
     return next.sort((a, b) => getCardTitle(tab, a).localeCompare(getCardTitle(tab, b), "zh-CN"));
   }
   if (sortMode === "createdDesc") {
-    return next.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+    return next.sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
   }
-  return next.sort((a, b) => new Date(b.updated_at).getTime() - new Date(a.updated_at).getTime());
+  return next.sort((a, b) => new Date(b.updatedAt).getTime() - new Date(a.updatedAt).getTime());
 }
 
 export function ResourcesPage() {

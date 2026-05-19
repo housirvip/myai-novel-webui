@@ -27,14 +27,14 @@ describe("ResourcesPage", () => {
     vi.spyOn(resourcesApi, "listRelations").mockResolvedValue([
       {
         id: 41,
-        source_type: "character",
-        source_id: 11,
-        target_type: "faction",
-        target_id: 21,
-        relation_type: "member",
+        sourceType: "character",
+        sourceId: 11,
+        targetType: "faction",
+        targetId: 21,
+        relationType: "member",
         status: "active",
-        created_at: "2026-05-10T00:00:00.000Z",
-        updated_at: "2026-05-10T00:00:00.000Z",
+        createdAt: "2026-05-10T00:00:00.000Z",
+        updatedAt: "2026-05-10T00:00:00.000Z",
       } as never,
     ]);
     vi.spyOn(resourcesApi, "listStoryHooks").mockResolvedValue([{ id: 51, title: "黑铁令异常", status: "open" } as never]);
@@ -165,12 +165,12 @@ describe("ResourcesPage", () => {
       {
         id: 31,
         name: "黑铁令",
-        owner_type: "character",
-        owner_id: 11,
+        ownerType: "character",
+        ownerId: 11,
         status: "active",
         description: "关键令牌",
-        created_at: "2026-05-10T00:00:00.000Z",
-        updated_at: "2026-05-10T00:00:00.000Z",
+        createdAt: "2026-05-10T00:00:00.000Z",
+        updatedAt: "2026-05-10T00:00:00.000Z",
       } as never,
     ]);
 
@@ -187,15 +187,15 @@ describe("ResourcesPage", () => {
     vi.mocked(resourcesApi.listRelations).mockResolvedValue([
       {
         id: 41,
-        source_type: "character",
-        source_id: 11,
-        target_type: "faction",
-        target_id: 21,
-        relation_type: "leader",
+        sourceType: "character",
+        sourceId: 11,
+        targetType: "faction",
+        targetId: 21,
+        relationType: "leader",
         status: "active",
         description: "旧关系",
-        created_at: "2026-05-10T00:00:00.000Z",
-        updated_at: "2026-05-10T00:00:00.000Z",
+        createdAt: "2026-05-10T00:00:00.000Z",
+        updatedAt: "2026-05-10T00:00:00.000Z",
       } as never,
     ]);
 
@@ -210,7 +210,7 @@ describe("ResourcesPage", () => {
 
   it("shows localized status on other resource cards", async () => {
     vi.mocked(resourcesApi.listCharacters).mockResolvedValue([
-      { id: 11, name: "林夜", status: "alive", current_location: "云岚城" } as never,
+      { id: 11, name: "林夜", status: "alive", currentLocation: "云岚城" } as never,
     ]);
 
     renderWithRoute(<ResourcesPage />, "/app/books/1/resources", "/app/books/:bookId/resources");
