@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="12" y1="8" x2="52" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#8B5CF6" />
+      <stop offset="1" stop-color="#4F46E5" />
+    </linearGradient>
+    <linearGradient id="page" x1="20" y1="18" x2="44" y2="46" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFFFF" />
+      <stop offset="1" stop-color="#E0E7FF" />
+    </linearGradient>
+  </defs>
+  <rect x="6" y="6" width="52" height="52" rx="16" fill="url(#bg)" />
+  <path
+    d="M20 19.5C20 17.8431 21.3431 16.5 23 16.5H31C34.3137 16.5 37 19.1863 37 22.5V45.5H25C22.2386 45.5 20 43.2614 20 40.5V19.5Z"
+    fill="url(#page)"
+  />
+  <path
+    d="M44 19.5C44 17.8431 42.6569 16.5 41 16.5H33C29.6863 16.5 27 19.1863 27 22.5V45.5H39C41.7614 45.5 44 43.2614 44 40.5V19.5Z"
+    fill="url(#page)"
+    opacity="0.92"
+  />
+  <path d="M32 22V45" stroke="#C7D2FE" stroke-width="2" stroke-linecap="round" />
+  <path d="M23.5 25.5H28.5" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" />
+  <path d="M35.5 25.5H40.5" stroke="#A78BFA" stroke-width="2" stroke-linecap="round" />
+  <path
+    d="M47 14L48.3431 17.6569L52 19L48.3431 20.3431L47 24L45.6569 20.3431L42 19L45.6569 17.6569L47 14Z"
+    fill="#FDE68A"
+  />
+</svg>
